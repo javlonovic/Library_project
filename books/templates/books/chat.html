@@ -1,0 +1,25 @@
+{% extends 'books/base.html' %}
+{% block title %}Chat{% endblock %}
+{% block content %}
+    <div class="container">
+        <h2>Chat Room</h2>
+        <div id="chat-box">
+            {% for message in messages %}
+                <div class="message">
+                    <p><strong>{{ message.user.username }}:</strong> {{ message.content }}</p>
+                    {% if message.user == request.user %}
+                        <form method="POST" action="{% url 'delete_message' message.id %}">
+                            {% csrf_token %}
+                            <button type="submit">Delete</button>
+                        </form>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+        <form method="POST" action="{% url 'send_message' %}">
+            {% csrf_token %}
+            <input type="text" name="content" placeholder="Type your message here...">
+            <button type="submit">Send</button>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'books/base.html' %}
+{% load static %}
+{% block title %}{{ book.title }}{% endblock %}
+{% block content %}
+<link href="https://fonts.googleapis.com/css2?family=Angkor&family=Roboto:wght@400;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+<style>
+    .angkor-regular {
+        font-family: "Angkor", serif;
+        font-weight: 400;
+        font-style: normal;
+        font-size: 75px;
+    }
+    .book-cover {
+        width: 400px; /* Increased image width */
+        border-radius: 10px;
+    }
+    .book-info .book-title {
+        margin-bottom: 20px;
+        font-size: 36px; /* Increased font size */
+    }
+    .book-info .book-author,
+    .book-info .book-description,
+    .book-info .book-published-date {
+        margin: 10px 0;
+        font-size: 28px; /* Increased font size */
+    }
+</style>
+    <div class="container">
+        <div class="book-detail">
+            {% if book.cover_image %}
+                <img src="{{ book.cover_image.url }}" class="book-cover" alt="Book Cover">
+            {% else %}
+                <img src="{% static 'images/default_cover.jpg' %}" class="book-cover" alt="Default Book Cover">
+            {% endif %}
+            <div class="book-info">
+                <h1 class="angkor-regular">{{ book.title }}</h1>
+                <p class="book-author"><strong>Author:</strong> {{ book.author }}</p>
+                <p class="book-description"><strong>Description:</strong> {{ book.description }}</p>
+                <p class="book-published-date"><strong>Published Date:</strong> {{ book.published_date }}</p>
+                {% if book.pdf_file %}
+                    <a href="{{ book.pdf_file.url }}" class="btn btn-success">Download</a>
+                {% else %}
+                    <p>No PDF available for download.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'books/base.html' %}
+{% load static %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<link href="https://fonts.googleapis.com/css2?family=Angkor&family=Roboto:wght@400;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+<style>
+.angkor-regular {
+    font-family: "Angkor", serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 150px;
+}
+.roboto-regular {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+}
+.montserrat-bold {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+}
+.book-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.book-item .card-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.book-item .card-text {
+    flex: 1;
+}
+.book-item .btn {
+    margin-left: 10px;
+}
+</style>
+<div class="container">
+    <h1 class="angkor-regular">Welcome to MySite</h1>
+    <p class="roboto-regular">Find and post books easily!</p>
+    <div class="book-list">
+        <div class="row">
+            {% for book in books %}
+                <div class="col-md-4">
+                    <div class="card book-item">
+                        {% if book.cover_image %}
+                            <img src="{{ book.cover_image.url }}" class="card-img-top" alt="Book Cover">
+                        {% else %}
+                            <img src="{% static 'images/default_cover.jpg' %}" class="card-img-top" alt="Default Book Cover">
+                        {% endif %}
+                        <div class="card-body">
+                            <div class="card-text montserrat-bold">{{ book.title }}</div>
+                            <div class="card-text roboto-regular"><strong>Published Date:</strong> {{ book.published_date }}</div>
+                            <a href="{% url 'book_detail' book.id %}" class="btn btn-primary">View</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
